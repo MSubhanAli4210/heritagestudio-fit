@@ -1,22 +1,21 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import NavbarClient from "./NavbarClient";
 
-export default function Navbar() {
+function NavbarFallback() {
   return (
-    <header className="navbar">
-      <Link href="/" className="brand">
-        HEURISTIC<span>STUDIO</span>
-      </Link>
-
-      <nav className="nav-links">
-        <Link href="/shop">Shop</Link>
-        <Link href="/customize">Customize</Link>
-        <Link href="/about">About</Link>
-        <Link href="/contact">Contact</Link>
-      </nav>
-
-      <Link href="/cart" className="cart-link">
-        Bag (0)
+    <header className="sticky top-0 z-50 flex h-[68px] items-center justify-between gap-6 border-b border-line/80 bg-background/80 px-[7%] backdrop-blur-md md:h-[78px]">
+      <Link href="/" className="whitespace-nowrap text-[19px] font-extrabold tracking-[2px]">
+        HEURISTIC<span className="font-normal text-accent">STUDIO</span>
       </Link>
     </header>
+  );
+}
+
+export default function Navbar({ cartCount = 0 }: { cartCount?: number }) {
+  return (
+    <Suspense fallback={<NavbarFallback />}>
+      <NavbarClient cartCount={cartCount} />
+    </Suspense>
   );
 }

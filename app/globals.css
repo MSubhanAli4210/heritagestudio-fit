@@ -1,596 +1,73 @@
 @import "tailwindcss";
 
-:root {
-  --background: #eeeae2;
-  --foreground: #292721;
-  --muted: #777268;
-  --accent: #8c765d;
-}
-
-/* Base Reset */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font: inherit;
-}
-
-/* Typography Helpers */
-.eyebrow {
-  color: var(--accent);
-  font-size: 10px;
-  letter-spacing: 3px;
-  font-weight: 700;
-}
-
-.primary-button {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-  background: #292721;
-  color: white;
-  padding: 14px 24px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.primary-button:hover {
-  background: #806c55;
-  transform: translateY(-2px);
-}
-
-/* Navigation */
-.navbar {
-  height: 82px;
-  padding: 0 7%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #d8d2c8;
-}
-
-.brand {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.brand span {
-  font-weight: 400;
-}
-
-.nav-links {
-  display: flex;
-  gap: 36px;
-  font-size: 13px;
-}
-
-.nav-links a,
-.cart-link {
-  transition: color 0.2s;
-}
-
-.nav-links a:hover,
-.cart-link:hover {
-  color: var(--accent);
-}
-
-.cart-link {
-  font-size: 13px;
-}
-
-/* Hero Section */
-.hero-updated {
-  min-height: 520px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 40px;
-  padding: 60px 7%;
-  overflow: hidden;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 600px;
-}
-
-.hero h1 {
-  font-family: Georgia, serif;
-  font-size: clamp(48px, 6.5vw, 84px);
-  line-height: 1.05;
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  margin: 20px 0;
-}
-
-.hero h1 span {
-  color: #8b785f;
-  font-style: italic;
-}
-
-.hero-description {
-  max-width: 420px;
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 14px;
-  margin-bottom: 32px;
-}
-
-/* Hero Mockup & Visuals */
-.hero-visual {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px;
-}
-
-.hero-shirt {
-  position: relative;
-  width: 100%;
-  max-width: 380px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #ded8ce;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-}
-
-.hero-shirt img {
-  width: 100%;
-  height: 420px;
-  object-fit: cover;
-  display: block;
-}
-
-.shirt-label {
-  position: absolute;
-  top: 42%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  border: 1px dashed rgba(255, 255, 255, 0.7);
-  padding: 10px 16px;
-  border-radius: 4px;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.hero-note {
-  position: absolute;
-  top: 5%;
-  right: 5%;
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.4;
-  transform: rotate(-6deg);
-  background: var(--background);
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #d8d2c8;
-}
-
-.hero-note span {
-  font-size: 18px;
-  display: block;
-  margin-bottom: 2px;
-}
-
-.hero-decoration {
-  position: absolute;
-  left: 5%;
-  bottom: 8%;
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 16px;
-  color: var(--accent);
-  transform: rotate(-10deg);
-}
-
-/* Showroom & Clothing Rail Section */
-.showroom-section {
-  padding: 75px 0 85px;
-  background: #e4dfd5;
-  overflow: hidden;
-}
-
-.showroom-heading {
-  padding: 0 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 45px;
-}
-
-.showroom-heading h2 {
-  font-family: Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(35px, 5vw, 58px);
-  margin: 12px 0;
-}
-
-.showroom-heading p:not(.eyebrow) {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.rail-controls {
-  display: flex;
-  gap: 10px;
-}
-
-.rail-controls button {
-  width: 42px;
-  height: 42px;
-  border: 1px solid #aaa295;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  font-size: 19px;
-}
-
-.rail-controls button:hover {
-  background: #292721;
-  color: white;
-}
-
-.clothing-rail {
-  position: relative;
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  cursor: grab;
-  user-select: none;
-  scrollbar-width: none;
-  touch-action: pan-y;
-  padding: 0 7% 15px;
-}
-
-.clothing-rail::-webkit-scrollbar {
-  display: none;
-}
-
-.clothing-rail.dragging {
-  cursor: grabbing;
-}
-
-.rail-bar {
-  position: absolute;
-  top: 10px;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(#77736d, #d0cbc1, #77736d);
-  border-radius: 5px;
-  box-shadow: 0 3px 5px #00000020;
-}
-
-.products-track {
-  display: flex;
-  align-items: flex-start;
-  gap: 25px;
-  width: max-content;
-  padding-top: 13px;
-}
-
-.hanging-product {
-  display: block;
-  width: 220px;
-  flex-shrink: 0;
-  text-align: center;
-}
-
-/* Hanger & Garment Fixes */
-.hanger {
-  width: 100%;
-  transform-origin: 50% 25px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.hanger-shape {
-  width: 100px;
-  height: 65px;
-  margin-top: 0;
-  flex-shrink: 0;
-}
-
-.hanger-shape svg,
-.hanger svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.garment {
-  width: 100%;
-  height: 260px;
-  overflow: hidden;
-  background: #ded8ce;
-  margin-top: -5px;
-}
-
-.garment img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  transition: transform 0.5s;
-}
-
-.hanging-product:hover .garment img {
-  transform: scale(1.06);
-}
-
-.product-caption {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 11px;
-  margin-top: 17px;
-  text-align: left;
-}
-
-.drag-hint {
-  text-align: center;
-  color: var(--muted);
-  letter-spacing: 3px;
-  font-size: 9px;
-  margin-top: 40px;
-}
-
-/* How It Works Section */
-.how-section {
-  margin: 40px 7%;
-  padding: 48px 36px;
-  border-radius: 18px;
-  background: #e5ded2;
-  display: grid;
-  grid-template-columns: 220px repeat(4, 1fr);
-  align-items: start;
-  gap: 24px;
-}
-
-.how-intro h2,
-.creations-heading h2 {
-  font-family: Georgia, serif;
-  font-weight: 400;
-  font-size: 32px;
-  margin: 10px 0;
-}
-
-.how-intro > p:not(.eyebrow),
-.creations-heading p:not(.eyebrow) {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-.how-step {
-  text-align: center;
-  padding: 0 8px;
-}
-
-.how-step > span {
-  font-size: 10px;
-  color: var(--accent);
-  letter-spacing: 2px;
-  font-weight: 700;
-}
-
-.step-icon {
-  font-size: 32px;
-  margin: 10px 0;
-}
-
-.how-step h3 {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.how-step p {
-  font-size: 11px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-/* Creations Section */
-.creations-section {
-  padding: 75px 7%;
-}
-
-.creations-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-
-.creations-heading > a {
-  font-size: 12px;
-  border-bottom: 1px solid;
-  padding-bottom: 4px;
-}
-
-.creations-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-.creation-card {
-  overflow: hidden;
-  background: #e5ded2;
-  border-radius: 8px;
-}
-
-.creation-card img {
-  display: block;
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  transition: transform 0.4s;
-}
-
-.creation-card:hover img {
-  transform: scale(1.04);
-}
-
-.creation-card div {
-  padding: 16px;
-}
-
-.creation-card h3 {
-  font-family: Georgia, serif;
-  font-weight: 400;
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-
-.creation-card p {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-/* Footer */
-.footer {
-  background: #292721;
-  color: #eeeae2;
-  padding: 50px 7%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 25px;
-}
-
-.footer h2 {
-  letter-spacing: 3px;
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-.footer p {
-  color: #c0b8ac;
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 13px;
-}
-
-.footer-links {
-  display: flex;
-  gap: 24px;
-  font-size: 12px;
-}
-
-.footer span {
-  color: #aaa295;
-  font-size: 11px;
-}
-
-/* Responsive Overrides */
-@media (max-width: 992px) {
-  .hero-updated {
-    grid-template-columns: 1fr;
-    padding-top: 40px;
-  }
-
-  .how-section {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .creations-grid {
-    grid-template-columns: repeat(2, 1fr);
+@theme {
+  --color-background: #eeeae2;
+  --color-foreground: #292721;
+  --color-muted: #777268;
+  --color-accent: #8c765d;
+  --color-accent-dark: #806c55;
+  --color-line: #d8d2c8;
+  --color-sand: #e4dfd5;
+  --color-card: #e5ded2;
+  --color-cloth: #ded8ce;
+
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  --animate-sway: hanger-sway 5s ease-in-out infinite;
+
+  @keyframes hanger-sway {
+    0%,
+    100% {
+      transform: rotate(-1.5deg);
+    }
+    50% {
+      transform: rotate(1.5deg);
+    }
   }
 }
 
-@media (max-width: 600px) {
-  .nav-links {
-    display: none;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
   }
 
-  .hanging-product {
-    width: 175px;
-  }
-
-  .garment {
-    height: 220px;
-  }
-
-  .creations-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .footer {
-    flex-direction: column;
-    text-align: center;
+  body {
+    font-family: Arial, Helvetica, sans-serif;
   }
 }
 
-/* PNG Image Adjustments */
+@layer components {
+  /* Real front/back flip for the clothing rail */
+  .flip {
+    perspective: 900px;
+  }
 
-/* Hero Section PNG */
-.hero-shirt img {
-  width: 100%;
-  height: 380px;
-  object-fit: contain !important; /* Fits entire shirt inside frame without cropping */
-  mix-blend-mode: normal !important; /* Removes dark box artifacts around transparent PNGs */
-  padding: 12px;
-}
+  .flip-inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
 
-/* Clothing Rail Garments */
-.garment {
-  background: #ded8ce;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .flip-face {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
 
-.garment img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain !important;
-  padding: 16px;
-  pointer-events: none;
-  transition: transform 0.3s ease;
-}
+  .flip-back {
+    transform: rotateY(180deg);
+  }
 
-/* Creations Section Grid Cards */
-.creation-card img {
-  display: block;
-  width: 100%;
-  height: 240px;
-  object-fit: contain !important;
-  padding: 20px;
-  background: #dfd8cc;
-  transition: transform 0.3s ease;
+  @media (hover: hover) {
+    .hanging-product:hover .flip-inner,
+    .hanging-product:focus-visible .flip-inner {
+      transform: rotateY(180deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flip-inner {
+      transition: none;
+    }
+  }
 }
