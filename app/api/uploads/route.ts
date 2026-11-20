@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
   try {
     const visitorToken = await getOrCreateVisitorToken();
-    const rateLimit = await consumeRateLimit(visitorToken, "upload", 6, 60 * 60 * 1000);
+    const rateLimit = await consumeRateLimit(visitorToken, "upload", 20, 60 * 60 * 1000);
     if (!rateLimit.allowed) {
       return Response.json(
         { error: "Upload limit reached. Please try again later." },
