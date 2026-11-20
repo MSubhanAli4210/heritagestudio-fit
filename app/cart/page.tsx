@@ -84,7 +84,8 @@ export default function CartPage() {
                         <img
                           src={item.customDesign.imageUrl}
                           alt=""
-                          className="h-full w-full object-contain opacity-70"
+                          className="h-full w-full object-contain"
+                          style={{ opacity: (100 - item.customDesign.transparency) / 100 }}
                         />
                         <span
                           aria-hidden="true"

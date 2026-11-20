@@ -4,6 +4,7 @@ export type CustomDesign = {
   fileName: string;
   placement: "Front" | "Back";
   scale: number;
+  transparency: number;
   positionX: number;
   positionY: number;
 };

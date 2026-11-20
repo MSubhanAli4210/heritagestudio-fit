@@ -6,6 +6,7 @@ export const customDesignSchema = z.object({
   fileName: z.string().min(1).max(120),
   placement: z.enum(["Front", "Back"]),
   scale: z.number().int().min(15).max(55),
+  transparency: z.number().int().min(0).max(100).default(30),
   positionX: z.number().int().min(35).max(65),
   positionY: z.number().int().min(25).max(62),
 });
