@@ -2,6 +2,8 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  salePrice?: number | null;
+  isActive?: boolean;
   category: string;
   image: string;
   backImage: string;

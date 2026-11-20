@@ -1,57 +1,73 @@
-import { products } from "@/data/products";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import Navbar from "@/components/layout/Navbar";
+import ProductOptions from "@/components/products/ProductOptions";
+import ProductGallery from "@/components/products/ProductGallery";
+import { getProductById } from "@/lib/product-catalog";
+import { getProductPrice, getSalePercent } from "@/lib/product-pricing";
 
 export default async function ProductPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-
-  const product = products.find((item) => item.id === slug);
-
-  if (!product) {
-    notFound();
-  }
-
   return (
     <main>
-      <header className="navbar">
-        <Link href="/" className="brand">
-          HEURISTIC<span>STUDIO</span>
-        </Link>
-        <Link href="/shop">Back to shop ←</Link>
-      </header>
-
-      <section className="product-detail">
-        <img src={product.image} alt={product.name} />
-
-        <div>
-          <p className="eyebrow">{product.category}</p>
-          <h1>{product.name}</h1>
-          <h2>Rs. {product.price.toLocaleString("en-PK")}</h2>
-          <p>{product.description}</p>
-
-          <p>Available sizes</p>
-          <div className="detail-options">
-            {product.sizes.map((size) => (
-              <button key={size}>{size}</button>
-            ))}
-          </div>
-
-          <p>Available colors</p>
-          <div className="detail-options">
-            {product.colors.map((color) => (
-              <button key={color}>{color}</button>
-            ))}
-          </div>
-
-          <button className="primary-button">
-            Add to bag
-          </button>
-        </div>
-      </section>
+      <Navbar />
+      <Suspense fallback={<p className="px-[7%] py-16 text-sm text-muted">Loading product…</p>}>
+        <ProductDetails params={params} />
+      </Suspense>
     </main>
+  );
+}
+
+async function ProductDetails({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const product = await getProductById(slug);
+  if (!product) notFound();
+  const currentPrice = getProductPrice(product);
+  const views = [
+    { label: "Front", src: product.image },
+    { label: "Back", src: product.backImage },
+  ];
+
+  return (
+    <section className="grid gap-8 px-[7%] py-[60px] lg:grid-cols-2 lg:items-start lg:gap-12">
+      <ProductGallery name={product.name} views={views} />
+
+      <div>
+        <p className="text-[10px] font-bold tracking-[3px] text-accent uppercase">
+          {product.category}
+        </p>
+        <h1 className="mb-2 mt-3 font-serif text-[clamp(32px,4vw,48px)] font-normal">
+          {product.name}
+        </h1>
+        <h2 className="mb-2 text-xl font-semibold text-accent">
+          Rs. {currentPrice.toLocaleString("en-PK")}
+          {currentPrice < product.price && (
+            <span className="ml-3 text-base font-normal text-muted line-through">
+              Rs. {product.price.toLocaleString("en-PK")}
+            </span>
+          )}
+        </h2>
+        {getSalePercent(product) > 0 && (
+          <p className="mb-5 text-xs font-bold uppercase tracking-[1px] text-[#9a5137]">
+            {getSalePercent(product)}% off
+          </p>
+        )}
+        <p className="mb-8 text-sm leading-[1.7] text-muted">{product.description}</p>
+
+        <ProductOptions
+          sizes={product.sizes}
+          colors={product.colors}
+          product={{
+            id: product.id,
+            name: product.name,
+            price: currentPrice,
+            image: product.image,
+          }}
+        />
+      </div>
+    </section>
   );
 }
