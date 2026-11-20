@@ -2,13 +2,10 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { products } from "@/data/products";
+import type { Product } from "@/data/products";
+import { getProductPrice, getSalePercent } from "@/lib/product-pricing";
 
-// Show every product on the rail. For plain garments only, use:
-// products.filter((p) => p.category !== "Our Creations")
-const railProducts = products;
-
-export default function ClothingRail() {
+export default function ClothingRail({ products }: { products: Product[] }) {
   const railRef = useRef<HTMLDivElement>(null);
   const drag = useRef({ active: false, startX: 0, startScroll: 0, moved: false });
   const [dragging, setDragging] = useState(false);
@@ -98,7 +95,7 @@ export default function ClothingRail() {
         <div className="relative flex w-max items-start gap-[25px] px-[7vw] pb-10 [--rail-y:11px]">
           <div className="absolute inset-x-0 top-[calc(var(--rail-y)-3px)] z-0 h-1.5 rounded-[5px] bg-linear-to-b from-[#77736d] via-[#d0cbc1] to-[#77736d] shadow-[0_3px_5px_#00000020]" />
 
-          {railProducts.map((product, index) => (
+          {products.map((product, index) => (
             <Link
               href={`/products/${product.id}`}
               key={product.id}
@@ -144,7 +141,10 @@ export default function ClothingRail() {
 
               <div className="mt-[17px] flex justify-between gap-2 text-left text-[11px]">
                 <span>{product.name}</span>
-                <span className="whitespace-nowrap">Rs. {product.price.toLocaleString("en-PK")}</span>
+                <span className="whitespace-nowrap">
+                  Rs. {getProductPrice(product).toLocaleString("en-PK")}
+                  {getSalePercent(product) > 0 && <span className="ml-1 text-[#9a5137]">{getSalePercent(product)}% off</span>}
+                </span>
               </div>
             </Link>
           ))}

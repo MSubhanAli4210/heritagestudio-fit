@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -87,11 +88,27 @@ const linkClass = [
 export default function NavbarClient({ cartCount = 0 }: { cartCount?: number }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [count, setCount] = useState(cartCount);
   const pathname = usePathname();
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    const syncCartCount = () => {
+      try {
+        const stored = JSON.parse(window.localStorage.getItem("heuristicstudio-cart") ?? "[]") as Array<{ quantity: number }>;
+        setCount(stored.reduce((total, item) => total + item.quantity, 0));
+      } catch {
+        setCount(0);
+      }
+    };
+
+    syncCartCount();
+    window.addEventListener("cart-updated", syncCartCount);
+    window.addEventListener("storage", syncCartCount);
+    return () => {
+      window.removeEventListener("cart-updated", syncCartCount);
+      window.removeEventListener("storage", syncCartCount);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -115,8 +132,14 @@ export default function NavbarClient({ cartCount = 0 }: { cartCount?: number }) 
           : "h-[68px] bg-background/80 md:h-[78px]"
       }`}
     >
-      <Link href="/" className="whitespace-nowrap text-[19px] font-extrabold tracking-[2px]">
-        HEURISTIC<span className="font-normal text-accent">STUDIO</span>
+      <Link href="/" aria-label="Heritage Studio home" className="shrink-0">
+        <Image
+          src="/icons/HS%20Logo%20b.png"
+          alt="Heritage Studio"
+          width={2234}
+          height={599}
+          className="h-auto w-[130px] md:w-[150px]"
+        />
       </Link>
 
       <nav
@@ -141,15 +164,34 @@ export default function NavbarClient({ cartCount = 0 }: { cartCount?: number }) 
 
       <div className="flex items-center gap-3">
         <Link
+          href="/account"
+          aria-label="Account"
+          className="grid size-[42px] place-items-center rounded-full border border-[#aaa295] transition hover:border-foreground hover:bg-foreground hover:text-white"
+        >
+          <svg
+            className="size-[18px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21a8 8 0 0 1 16 0" />
+          </svg>
+        </Link>
+        <Link
           href="/cart"
-          aria-label={`Bag, ${cartCount} items`}
+          aria-label={`Bag, ${count} items`}
           className="relative inline-flex items-center gap-2 rounded-full bg-foreground px-3 py-2.5 text-[13px] font-semibold text-white transition hover:-translate-y-px hover:bg-accent-dark md:px-[18px]"
         >
           <BagIcon />
           <span className="hidden md:inline">Bag</span>
-          {cartCount > 0 && (
+          {count > 0 && (
             <span className="absolute -right-1 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full border-2 border-background bg-accent px-1 text-[10px] font-bold text-white">
-              {cartCount}
+              {count}
             </span>
           )}
         </Link>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { addCartItem } from "@/lib/cart";
 
 function OptionGroup({
   label,
@@ -43,9 +44,11 @@ function OptionGroup({
 export default function ProductOptions({
   sizes,
   colors,
+  product,
 }: {
   sizes: string[];
   colors: string[];
+  product: { id: string; name: string; price: number; image: string };
 }) {
   const [size, setSize] = useState<string | null>(null);
   const [color, setColor] = useState<string | null>(null);
@@ -55,7 +58,14 @@ export default function ProductOptions({
 
   const addToBag = () => {
     if (!ready) return;
-    // TODO: push { size, color } to the cart state once the cart exists
+    addCartItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      size: size!,
+      color: color!,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };
