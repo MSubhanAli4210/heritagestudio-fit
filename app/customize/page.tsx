@@ -17,6 +17,7 @@ export default function CustomizePage() {
   const [publicId, setPublicId] = useState("");
   const [fileName, setFileName] = useState("");
   const [scale, setScale] = useState(30);
+  const [transparency, setTransparency] = useState(30);
   const [positionX, setPositionX] = useState(50);
   const [positionY, setPositionY] = useState(42);
   const [error, setError] = useState("");
@@ -116,6 +117,7 @@ export default function CustomizePage() {
         fileName,
         placement,
         scale,
+        transparency,
         positionX,
         positionY,
       },
@@ -186,7 +188,8 @@ export default function CustomizePage() {
                 <img
                   src={designUrl}
                   alt="Uploaded design preview"
-                  className="h-full w-full object-contain opacity-70"
+                  className="h-full w-full object-contain"
+                  style={{ opacity: (100 - transparency) / 100 }}
                 />
                 <span
                   aria-hidden="true"
@@ -254,6 +257,20 @@ export default function CustomizePage() {
                     <span>Print size</span><span>{scale}%</span>
                   </label>
                   <input type="range" min="15" max="55" value={scale} onChange={(event) => setScale(Number(event.target.value))} className="w-full accent-[#292721]" />
+                </div>
+                <div>
+                  <label htmlFor="print-transparency" className="mb-2 flex justify-between text-xs font-semibold">
+                    <span>Print transparency</span><span>{transparency}%</span>
+                  </label>
+                  <input
+                    id="print-transparency"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={transparency}
+                    onChange={(event) => setTransparency(Number(event.target.value))}
+                    className="w-full accent-[#292721]"
+                  />
                 </div>
                 <div>
                   <label className="mb-2 flex justify-between text-xs font-semibold">

@@ -11,18 +11,23 @@ export function readCart(): CartItem[] {
     if (!value) return [];
 
     const parsed = JSON.parse(value) as Array<CartItem & {
-      customDesign?: CartItem["customDesign"] & { dataUrl?: string; publicId?: string };
+      customDesign?: CartItem["customDesign"] & {
+        dataUrl?: string;
+        publicId?: string;
+        transparency?: number;
+      };
     }>;
     return parsed.map((item) => {
       const design = item.customDesign;
-      if (!design || design.imageUrl) return item;
+      if (!design) return item;
 
       return {
         ...item,
         customDesign: {
           ...design,
-          imageUrl: design.dataUrl ?? "",
+          imageUrl: design.imageUrl || design.dataUrl || "",
           publicId: design.publicId ?? "",
+          transparency: design.transparency ?? 30,
         },
       };
     });
@@ -52,7 +57,8 @@ export function addCartItem(item: Omit<CartItem, "id" | "quantity">) {
     entry.size === item.size &&
     entry.color === item.color &&
     entry.customDesign?.imageUrl === item.customDesign?.imageUrl &&
-    entry.customDesign?.placement === item.customDesign?.placement
+    entry.customDesign?.placement === item.customDesign?.placement &&
+    entry.customDesign?.transparency === item.customDesign?.transparency
   );
 
   if (existing) {
